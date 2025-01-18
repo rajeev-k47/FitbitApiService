@@ -9,10 +9,13 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'UID and Group ID are required' }, { status: 400 });
         }
         const groupDoc = await firestore.collection('users').doc(groupId).get();
+        console.log(groupDoc)
+
         if (!groupDoc.exists) {
             return NextResponse.json({ error: 'Group not found' }, { status: 404 });
         }
         const userDoc = await firestore.collection('users').doc(uid).get();
+        console.log(userDoc)
         if (!userDoc.exists) {
             return NextResponse.json({ error: 'User not found' },{ status: 404 });
         }
@@ -28,7 +31,7 @@ export async function POST(request: Request) {
             token: fcmToken,
             notification: {
                 title: 'New Joining Request',
-                body: `You have a new joining request pending from  ${groupId}.`,
+                body: `You have a new joining request pending from  ${userDoc.get("username")}.`,
             },
             data: {
                 groupId: groupId,
