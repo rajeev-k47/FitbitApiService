@@ -34,7 +34,7 @@ export async function POST(request: Request) {
                 body: `You have a new joining request pending from  ${userDoc.get("username")}.`,
             },
             data: {
-                groupId: groupId,
+                uId: uid,
             },
         };
         await messaging.send(message);
